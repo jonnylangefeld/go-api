@@ -1,0 +1,6 @@
+# IDEs
+.idea
+.vscode
+
+# Keep `swag`
+vendor/github.com/swaggo/swag/.gitignore

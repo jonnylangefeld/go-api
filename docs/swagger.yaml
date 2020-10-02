@@ -1,0 +1,229 @@
+basePath: /
+definitions:
+  Article:
+    properties:
+      id:
+        description: The unique id of this item
+        example: 1
+        type: integer
+      name:
+        description: The name of this item
+        example: Skittles
+        type: string
+      price:
+        description: The price of this item
+        example: 1.99
+        type: number
+    type: object
+  ArticleList:
+    properties:
+      items:
+        description: A list of articles
+        items:
+          $ref: '#/definitions/Article'
+        type: array
+      next_page_id:
+        description: The id to query the next page
+        example: 10
+        type: integer
+    type: object
+  ErrorResponse:
+    properties:
+      code:
+        description: application-specific error code
+        example: 404
+        type: integer
+      error:
+        description: application-level error message, for debugging
+        example: The requested resource was not found on the server
+        type: string
+      status:
+        description: user-level status message
+        example: Resource not found.
+        type: string
+    type: object
+  Order:
+    properties:
+      id:
+        description: The unique id of this order
+        example: 1
+        type: integer
+      lastUpdated:
+        description: DateTime is the date and time of this order
+        example: 0001-01-01 00:00:00+00
+        type: string
+    type: object
+  OrderList:
+    properties:
+      items:
+        description: A list of orders
+        items:
+          $ref: '#/definitions/Order'
+        type: array
+      next_page_id:
+        description: The id to query the next page
+        example: 10
+        type: integer
+    type: object
+host: example.com
+info:
+  contact:
+    email: jonny.langefeld@gmail.com
+    name: Jonny Langefeld
+  description: |-
+    This API is a sample go-api.
+    It also does this.
+  license: {}
+  title: My API
+paths:
+  /articles:
+    get:
+      description: Get all articles stored in the database
+      parameters:
+      - description: id of the page to be retrieved
+        in: query
+        name: page_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ArticleList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: List all articles
+      tags:
+      - Articles
+    put:
+      description: |-
+        PutArticle writes an article to the database
+        To write a new article, leave the id empty. To update an existing one, use the id of the article to be updated
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Article'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: Add an article to the database
+      tags:
+      - Articles
+  /articles/{id}:
+    get:
+      description: GetArticle returns a single article by id
+      parameters:
+      - description: article id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Article'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: Get article by id
+      tags:
+      - Articles
+  /orders:
+    get:
+      description: Get all orders stored in the database
+      parameters:
+      - description: id of the page to be retrieved
+        in: query
+        name: page_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/OrderList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: List all orders
+      tags:
+      - Orders
+    put:
+      description: |-
+        PutOrder writes an order to the database
+        To write a new order, leave the id empty. To update an existing one, use the id of the order to be updated
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: Add an order to the database
+      tags:
+      - Orders
+  /orders/{id}:
+    get:
+      description: GetOrder returns a single order by id
+      parameters:
+      - description: order id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      summary: Get order by id
+      tags:
+      - Orders
+swagger: "2.0"
